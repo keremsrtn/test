@@ -15,18 +15,29 @@
 # [START gae_flex_quickstart]
 import logging
 
-import hug
+from flask import Flask
 
 
-app = hug.API(__name__)
+app = Flask(__name__)
 
 
-@hug.get(examples='name=Timothy&age=26')
-@hug.local()
-def happy_birthday(name: hug.types.text, age: hug.types.number, hug_timer=3):
-    """Says happy birthday to a user"""
-    return {'message': 'Happy {0} Birthday {1}!'.format(age, name),
-            'took': float(hug_timer)}
+@app.route('/')
+def hello():
+    """Return a friendly HTTP greeting."""
+    return 'Hello World!'
+
+
+@app.errorhandler(500)
+def server_error(e):
+    logging.exception('An error occurred during a request.')
+    return """
+    An internal error occurred: <pre>{}</pre>
+    See logs for full stacktrace.
+    """.format(e), 500
+
 
 if __name__ == '__main__':
-    app.http.serve(host='127.0.0.1', port=8080)
+    # This is used when running locally. Gunicorn is used to run the
+    # application on Google App Engine. See entrypoint in app.yaml.
+    app.run(host='127.0.0.1', port=8080, debug=True)
+# [END gae_flex_quickstart]
