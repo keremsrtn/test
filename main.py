@@ -29,4 +29,4 @@ def happy_birthday(name: hug.types.text, age: hug.types.number, hug_timer=3):
             'took': float(hug_timer)}
 
 if __name__ == '__main__':
-    app.http.serve()
+    app.http.serve(host='127.0.0.1', port=8080)
