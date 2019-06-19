@@ -18,7 +18,7 @@ import logging
 import hug
 
 
-api = hug.API(__name__)
+app = hug.API(__name__)
 
 
 @hug.get(examples='name=Timothy&age=26')
@@ -30,4 +30,4 @@ def happy_birthday(name: hug.types.text, age: hug.types.number, hug_timer=3):
 
 
 if __name__ == '__main__':
-    api.http.serve()
+    app.http.serve()
